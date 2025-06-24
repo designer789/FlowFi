@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 // Types
 interface LayerData {
@@ -310,24 +311,35 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, content, icon, theme }
   );
 };
 
-const NumberCard: React.FC<NumberCardProps> = ({ number, icon }) => (
-  <div className="col-span-1 row-start-4 md:row-span-2 md:col-start-3 md:row-start-1 relative group">
-    <div className="h-[200px] md:h-[576px] bg-slate-100 border border-slate-200 rounded-3xl p-6 md:p-8 flex flex-col justify-between transition-all duration-300 hover:border-slate-300">
-      <div className="text-right">
-        <span className="text-5xl md:text-8xl font-heading font-bold text-slate-300">
-          {number}
-        </span>
-      </div>
-      <div className="space-y-2 md:space-y-4">
-        <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center">
-          <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            {IconComponents[icon as keyof typeof IconComponents]}
-          </svg>
+const NumberCard: React.FC<NumberCardProps> = ({ number, icon }) => {
+  // Find the layer data for this number
+  const layerData = layersData.find(layer => layer.id === number);
+  const imageSrc = layerData ? `/${layerData.title}.png` : '/background_img.png';
+  const imageAlt = layerData ? `${layerData.title} Background` : 'Layer Background';
+
+  return (
+    <div className="col-span-1 row-start-4 md:row-span-2 md:col-start-3 md:row-start-1 relative group">
+      <div className="h-[200px] md:h-[576px] bg-slate-100 border border-slate-200 rounded-3xl p-6 md:p-8 flex flex-col justify-between transition-all duration-300 hover:border-slate-300 relative overflow-hidden">
+        {/* Background Image for all layers */}
+        <div className="h-[80%] top-[20%] absolute inset-0 z-0">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            className="object-cover object-left rounded-3xl opacity-80"
+            priority={false}
+          />
+        </div>
+        
+        <div className="text-right relative z-10">
+          <span className="text-5xl md:text-8xl font-heading font-bold text-slate-300">
+            {number}
+          </span>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Main Component
 export default function BentoSection() {
@@ -447,10 +459,10 @@ export default function BentoSection() {
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                     activeSlide === index
                       ? 'bg-gradient-to-r from-purple-500 to-cyan-500'
-                      : 'bg-slate-300'
+                      : 'bg-slate-300 hover:bg-slate-400'
                   }`}
                 />
               ))}
@@ -468,10 +480,10 @@ export default function BentoSection() {
                 <button
                   key={layer.id}
                   onClick={() => goToSlide(index)}
-                  className={`px-3 py-2 md:px-6 md:py-3 rounded-full font-body font-medium transition-all duration-300 text-sm md:text-base ${
+                  className={`px-3 py-2 md:px-6 md:py-3 rounded-full font-body font-medium transition-all duration-300 text-sm md:text-base cursor-pointer ${
                     activeSlide === index
                       ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-gray-400 hover:text-gray-600 hover:bg-slate-50'
                   }`}
                 >
                   {layer.id}
@@ -543,12 +555,12 @@ export default function BentoSection() {
             <button
               onClick={() => goToSlide(Math.max(0, activeSlide - 1))}
               disabled={activeSlide === 0}
-              className="flex items-center space-x-2 px-4 py-2 bg-slate-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center text-slate-600 space-x-2 px-4 py-2 bg-slate-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              <span className="text-sm font-medium">Previous</span>
+              <span className="text-sm text-slate-600 font-medium">Previous</span>
             </button>
             
             <div className="text-sm text-slate-600 font-medium">
@@ -558,9 +570,9 @@ export default function BentoSection() {
             <button
               onClick={() => goToSlide(Math.min(layersData.length - 1, activeSlide + 1))}
               disabled={activeSlide === layersData.length - 1}
-              className="flex items-center space-x-2 px-4 py-2 bg-slate-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center text-slate-600 space-x-2 px-4 py-2 bg-slate-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span className="text-sm font-medium">Next</span>
+              <span className="text-sm text-slate-600 font-medium">Next</span>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

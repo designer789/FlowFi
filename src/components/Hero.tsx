@@ -1,16 +1,32 @@
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Enhanced Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-gray-900 to-cyan-900/30" />
+      {/* Video Background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        poster="/background_img.png"
+      >
+        <source src="/video1.mp4" type="video/mp4" />
+        {/* Fallback for browsers that don't support video */}
+        Your browser does not support the video tag.
+      </video>
       
+      {/* Video overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 via-gray-900/60 to-cyan-900/40 z-10" />
+      
+      {/* Additional dark overlay for text contrast */}
+      <div className="absolute inset-0 bg-black/30 z-20" />
       
       {/* Subtle grid pattern overlay */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10 z-30">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.02] to-transparent"></div>
       </div>
       
-      <div className="relative z-10 max-w-8xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+      <div className="relative z-40 max-w-8xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
         <div className="max-w-8xl mx-auto">
           {/* Main heading */}
          
@@ -41,20 +57,23 @@ export default function Hero() {
           
           {/* Enhanced CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-20">
-            <button className="group relative bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white px-10 py-5 rounded-xl font-body font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-purple-500/25 min-w-[200px]">
-              <span className="relative z-10">Get Started</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
-            </button>
-            <button className="group border-2 border-gray-500 hover:border-purple-400 text-gray-200 hover:text-white px-10 py-5 rounded-xl font-body font-bold text-xl transition-all duration-300 backdrop-blur-sm hover:backdrop-blur-md hover:bg-purple-500/10 min-w-[200px]">
-              Learn More
-            </button>
+            <a href="https://t.me/FlowFi_Official" target="_blank" rel="noopener noreferrer">
+            <button className="group relative bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white px-10 py-5 rounded-xl font-body font-bold text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-purple-500/25 min-w-[200px] cursor-pointer">
+              <span className="relative z-10">Join Our Community</span>
+              </button></a>
+              
+            <a href="https://docs.flowfi.vip/" target="_blank" rel="noopener noreferrer">
+            <button className="group border-2 border-gray-500 hover:border-purple-400 text-gray-200 hover:text-white px-10 py-5 rounded-xl font-body font-bold text-xl transition-all duration-300 backdrop-blur-sm hover:backdrop-blur-md hover:bg-purple-500/10 min-w-[200px] cursor-pointer">
+              Read Docs
+            </button></a>
+            
           </div>
           
         </div>
       </div>
 
       {/* Subtle bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent pointer-events-none z-30" />
     </section>
   );
 } 

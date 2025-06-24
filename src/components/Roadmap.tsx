@@ -19,10 +19,7 @@ const fadeInLeftVariants = {
   visible: { opacity: 1, x: 0 }
 };
 
-const fadeInRightVariants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: { opacity: 1, x: 0 }
-};
+
 
 const scaleInVariants = {
   hidden: { scale: 0, opacity: 0 },

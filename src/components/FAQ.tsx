@@ -80,7 +80,7 @@ const FAQItemComponent: React.FC<FAQItemProps> = ({ faq, index, isOpen, onToggle
       } : { opacity: 0, y: 30 }}
     >
       <motion.button
-        className="w-full p-6 text-left flex items-center justify-between group"
+        className="w-full p-6 text-left flex items-center justify-between group cursor-pointer"
         onClick={onToggle}
         whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.02)" }}
         transition={{ duration: 0.2 }}
@@ -174,9 +174,7 @@ export default function FAQ() {
           <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="font-body text-lg text-white/70 max-w-2xl mx-auto">
-            Get answers to common questions about FlowFi&apos;s decentralized PayFi protocol
-          </p>
+         
         </motion.div>
 
         <div className="space-y-4">

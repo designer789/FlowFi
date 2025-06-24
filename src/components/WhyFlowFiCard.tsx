@@ -7,8 +7,7 @@ import {
   DollarSign, 
   Unlock, 
   Users, 
-  Shield,
-  ArrowRight 
+  Shield
 } from 'lucide-react';
 
 // Reusable animation variants

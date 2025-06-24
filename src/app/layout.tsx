@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Red_Hat_Display, Inter } from "next/font/google";
 import "./globals.css";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
 const redHatDisplay = Red_Hat_Display({
   variable: "--font-red-hat-display",
@@ -32,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${redHatDisplay.variable} ${inter.variable} antialiased bg-gray-900 text-white`}
       >
-        {children}
+        <SmoothScrollProvider>
+          {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );
