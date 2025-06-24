@@ -320,7 +320,7 @@ export default function Header() {
               <div className="border-t border-gray-600 mt-4 pt-4">
                 <p className="text-gray-400 text-sm font-body px-3 mb-3">Follow Us</p>
                 <div className="flex items-center justify-center space-x-4 px-3">
-                  {socialLinks.map((social, index) => (
+                  {socialLinks.map((social) => (
                     <motion.div
                       key={social.name}
                       className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 ${

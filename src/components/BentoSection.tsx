@@ -234,7 +234,6 @@ interface FeatureCardProps {
 
 interface NumberCardProps {
   number: string;
-  icon: string;
 }
 
 // Reusable Components
@@ -311,7 +310,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, content, icon, theme }
   );
 };
 
-const NumberCard: React.FC<NumberCardProps> = ({ number, icon }) => {
+const NumberCard: React.FC<NumberCardProps> = ({ number }) => {
   // Find the layer data for this number
   const layerData = layersData.find(layer => layer.id === number);
   const imageSrc = layerData ? `/${layerData.title}.png` : '/background_img.png';
@@ -545,7 +544,6 @@ export default function BentoSection() {
               />
               <NumberCard 
                 number={currentLayer.id} 
-                icon={currentLayer.numberIcon} 
               />
             </div>
           </div>
