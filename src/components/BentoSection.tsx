@@ -311,6 +311,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, content, icon, theme }
 };
 
 const NumberCard: React.FC<NumberCardProps> = ({ number }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
   // Find the layer data for this number
   const layerData = layersData.find(layer => layer.id === number);
   const imageSrc = layerData ? `/${layerData.title}.png` : '/background_img.png';
@@ -325,9 +327,22 @@ const NumberCard: React.FC<NumberCardProps> = ({ number }) => {
             src={imageSrc}
             alt={imageAlt}
             fill
-            className="object-cover object-left rounded-3xl opacity-80"
-            priority={false}
+            className={`object-cover object-left rounded-3xl transition-all duration-700 ease-out number-card-image ${
+              imageLoaded ? 'opacity-80 scale-100' : 'opacity-0 scale-105'
+            }`}
+            priority={number === '001'} // Prioritize first image
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={85}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkrHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(true)}
           />
+          
+          {/* Loading placeholder */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 rounded-3xl animate-pulse" />
+          )}
         </div>
         
         <div className="text-right relative z-10">
@@ -346,7 +361,32 @@ export default function BentoSection() {
   const [isPaused, setIsPaused] = useState(false);
   const [isScrollMode, setIsScrollMode] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Preload all images to prevent lag
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = layersData.map((layer) => {
+        return new Promise((resolve, reject) => {
+          const img = new window.Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = `/${layer.title}.png`;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.warn('Some images failed to preload:', error);
+        setImagesLoaded(true); // Continue anyway
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   // Handle desktop/mobile detection after hydration
   useEffect(() => {
@@ -424,7 +464,10 @@ export default function BentoSection() {
     const currentLayer = layersData[activeSlide];
 
   const goToSlide = (index: number) => {
-    setActiveSlide(index);
+    // Debounce rapid slide changes
+    if (index !== activeSlide) {
+      setActiveSlide(index);
+    }
   };
 
   if (!currentLayer) return null;
