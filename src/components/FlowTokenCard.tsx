@@ -37,7 +37,7 @@ interface UtilityItem {
 const utilities: UtilityItem[] = [
   {
     title: "Liquidity Access",
-    description: "Gain access to FlowFi&apos;s real-world liquidity pools by staking or supplying $FLOW tokens.",
+    description: "Gain access to FlowFi's real-world liquidity pools by staking or supplying $FLOW tokens.",
     icon: <Droplets size={24} />,
     color: "from-blue-500 to-cyan-500"
   },
